@@ -68,7 +68,7 @@ function initPjax(){
         this.loading = false;
 
         this._resetResizeCallbacks();
-        //this._initOnResizeCallbacks();
+        this._initOnResizeCallbacks();
 
         if (this.pjaxEnabled){
 
@@ -149,12 +149,33 @@ function initPjax(){
         this._addPageCallback(this.resizeCallbacks, fn);
     };
 
+    /**
+     * Specify a function to execute when page was reloaded with pjax.
+     * @param fn A function to execute
+     */
+    PjaxApp.prototype.onPageLoad = function(fn){
+        this._addPageCallback(this.pageLoadCallbacks, fn);
+    };
+
+    PjaxApp.prototype.pageLoaded = function(){
+        this._runPageCallbacks(this.pageLoadCallbacks);
+    };
+
     PjaxApp.prototype._addPageCallback = function(callbacks, fn){
         var pageName = this.extractPageName(location.href);
         if (!callbacks[pageName]){
             callbacks[pageName] = [];
         }
         callbacks[pageName].push(fn);
+    };
+
+    PjaxApp.prototype._runPageCallbacks = function(callbacks){
+        var pageName = this.extractPageName(location.href);
+        if (callbacks[pageName]){
+            _(callbacks[pageName]).each(function(fn){
+                fn();
+            })
+        }
     };
 
     PjaxApp.prototype._loadScripts = function(event, data, status, xhr, options){
@@ -205,6 +226,18 @@ function initPjax(){
 
             $previous = $(script);
         });
+
+        var view = this;
+        $previous.load(function(){
+            $(document).trigger('pjax-app:loaded');
+            view.log('scripts loaded.');
+        })
+    };
+
+    PjaxApp.prototype.extractPageName = function(url){
+        //credit: http://stackoverflow.com/a/8497143/1298418
+        var pageName = url.split('#')[0].substring(url.lastIndexOf("/") + 1).split('?')[0];
+        return pageName === '' ? 'index.html' : pageName;
     };
 
     PjaxApp.prototype._checkLoading = function(e){
@@ -228,6 +261,15 @@ function initPjax(){
         var errors = JSON.parse(localStorage.getItem('lb-errors')) || {};
         errors[new Date().getTime()] = arguments;
         localStorage.setItem('lb-errors', JSON.stringify(errors));
+    };
+
+    PjaxApp.prototype.log = function(message){
+        if (this.debug){
+            console.log(message
+                    + " - " + arguments.callee.caller.toString().slice(0, 30).split('\n')[0]
+                    + " - " + this.extractPageName(location.href)
+            );
+        }
     };
 
     window.PjaxApp = new PjaxApp();

@@ -73,26 +73,6 @@ jQuery(document).ready(function() {
     $('.numeric-integer').numeric({ decimal: false, negative: false });
     $('.numeric-double-integer').numeric({ negative: false });
 
-    /*$('.giro').keypress(function(event) {
-        alert($(this).val())
-        alert(1)
-        buscar_registros();
-    });*/
-
-    //Funcion para manipular el cuerpo de datatables
-    /*$('.widget-controls > a').click(function(event) {
-        if($(this).data('widgster') == 'expand') {
-            $(this).hide();
-            $(this).next().show();
-            $('.body').fadeOut('slow');
-        } else {
-            $(this).hide();
-            $(this).prev().show();
-            $('.body').fadeIn('slow');
-        }
-    });*/
-
-
     /***********************************Validar Formularios**********************************/
 
     var auto = $('#'+$('form').attr('id')).data('auto');
@@ -115,13 +95,6 @@ jQuery(document).ready(function() {
                 $(this).parent().find('ul').html('');
             }
         });
-
-        /*$(cadena).keyup(function() {
-            if($(this).val() != "") {
-                $(this).removeClass("parsley-error");
-                $(this).parent().find('ul').html('');
-            }
-        });*/
 
         $('#guardar').click(function() {
             var post = true;
@@ -160,60 +133,52 @@ jQuery(document).ready(function() {
 
 });
 
-//----------------------------revisa correos----------------------------------------
-function setTimeEntradaCorreos(){
-var verificarCorreo = Object.create(Persona);
-   var timeoutId = setTimeout(function(msg){
-    verificarCorreo.init("inicio");
-  },180000,'Pasaron 2 segundos desde el click');
-}
+    //----------------------------revisa correos----------------------------------------
+    function setTimeEntradaCorreos() {
+        var verificarCorreo = Object.create(Persona);
+        var timeoutId = setTimeout(function(msg){
+        verificarCorreo.init("inicio");
+        },180000,'Pasaron 2 segundos desde el click');
+    }
 
-var Persona = {
-    init : function (primerNombre) {
-  this.primerNombre = primerNombre;
-  var urlGetTicket =  base_url("GestionCorreo/verificarEnradaCorreos/");
-  var data="";
-   $.ajax({
-            url: urlGetTicket,
-            type: 'post',
-            data: {data : data},
-            success: function(data) {
-                console.log("respuesta : "+data.data);
-                if(data.data == 1){
-                    noti('tienes un nuevo correo');
-                    $(".count").html(data.valor);
+    var Persona = {
+        init : function (primerNombre) {
+        this.primerNombre = primerNombre;
+        var urlGetTicket =  base_url("GestionCorreo/verificarEnradaCorreos/");
+        var data="";
+        $.ajax({
+                url: urlGetTicket,
+                type: 'post',
+                data: {data : data},
+                success: function(data) {
+                    console.log("respuesta : "+data.data);
+                    if(data.data == 1){
+                        noti('tienes un nuevo correo');
+                        $(".count").html(data.valor);
+                    }
                 }
-            }
         });
-    setTimeEntradaCorreos();
-}
-};
-//----------------------------revisa correos----------------------------------------
-function main(){
-    buscar_registros(1,20);
+        setTimeEntradaCorreos();
+        }
+    };
 
-
-    $("div .body").on("click",".paginacion li a",function(e){
-        e.preventDefault();
-        valorhref = $(this).attr("href");
-        valorBuscar ='',// $("input[name=busqueda]").val();
-        valoroption =20// $("#cantidad").val();
-        buscar_registros(valorhref,valoroption);
-    });
-
-
-}
+    //----------------------------revisa correos----------------------------------------
+    function main(){
+        buscar_registros(1,20);
+        $("div .body").on("click",".paginacion li a",function(e){
+            e.preventDefault();
+            valorhref = $(this).attr("href");
+            valorBuscar ='',// $("input[name=busqueda]").val();
+            valoroption =20// $("#cantidad").val();
+            buscar_registros(valorhref,valoroption);
+        });
+    }
 
     var myVar;
     function buscar_registros(valorhref = null, valoroption = null) {
         clearTimeout(myVar);
         var nropagina= valorhref ? valorhref : 1;
         var cantidad=valoroption ? valoroption : 20;
-        /*myVar = setTimeout(generar_resultados, 500);
-        llenarStorage();
-    }
-
-    var generar_resultados = function() {*/
         var data = $('#form-ajax').serialize();
 
         $.ajax({
