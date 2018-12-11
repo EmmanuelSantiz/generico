@@ -34,6 +34,7 @@
   <script src="<?php echo base_url("assets/js/datepicker/bootstrap-datepicker.js"); ?>"></script>
 
   <!--Include del script general-->
+  <script src="<?php echo base_url("assets/js/app.js"); ?>"></script>
   <script src="<?php echo base_url("assets/js/app/app.js"); ?>"></script>
   <script src="<?php echo base_url("assets/js/settings.js"); ?>"></script>
   <script src="<?php echo base_url("assets/js/numeric.js"); ?>"></script>

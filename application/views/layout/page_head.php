@@ -11,7 +11,7 @@
 </head>
 <body>
     <div class="logo">
-        <h4><a href="index.html">Light <strong>Blue</strong></a></h4>
+        <h4><a href="<?php echo base_url(); ?>">Light <strong>Blue</strong></a></h4>
     </div>
 <nav id="sidebar" class="sidebar nav-collapse collapse">
             <ul id="side-nav" class="side-nav">
@@ -35,7 +35,7 @@
                     </ul>
                 </li>
                 <li class="visible-xs">
-                    <a href="login.html"><i class="fa fa-sign-out"></i> <span class="name">Sign Out</span></a>
+                    <a href="<?php echo base_url("Welcome/logout"); ?>"><i class="fa fa-sign-out"></i> <span class="name">Sign Out</span></a>
                 </li>
             </ul>
         </nav>
@@ -209,7 +209,7 @@
                             <i class="fa fa-bars"></i>
                         </a>
                     </li>
-                    <li class="hidden-xs"><a href="login.html"><i class="glyphicon glyphicon-off"></i></a></li>
+                    <li class="hidden-xs"><a href="<?php echo base_url("Welcome/logout")?>"><i class="glyphicon glyphicon-off"></i></a></li>
                 </ul>
                 <form id="search-form" class="navbar-form pull-right" role="search">
                     <input type="search" class="form-control search-query" placeholder="Search...">

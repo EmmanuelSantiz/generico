@@ -20,8 +20,8 @@ if(!function_exists('onToy')) {
 if(!function_exists('user_info')) {
 	function user_info() {
 		$ci =& get_instance();
-		$resultado = $ci->db->get_where('tbl_cat_usuarios', array('id_usuario' => $ci->session->userdata('id_usuario')))->row();
-     	if($resultado->id_usuario) {
+		$resultado = $ci->db->get_where('tbl_cat_usuarios', array('usuario_id' => $ci->session->userdata('usuario_id')))->row();
+     	if($resultado->usuario_id) {
      		return $resultado;
      	} else {
      		return null;

@@ -19,8 +19,14 @@ class Welcome extends CI_Controller {
 			$user = $this->db->query("SELECT * FROM tbl_cat_usuarios WHERE char_user = '".strtolower($respuesta['post']['char_user'])."' AND char_password = SHA1(CONCAT(char_salt, SHA1(CONCAT(char_salt, SHA1('".$respuesta['post']['char_password']."')))))")->row();
 
             if ($user) {
-            	$sessiondata = array('usuarios_id' => $user->usuarios_id);
+				$this->db->update('tbl_cat_usuarios', array('bit_conectado' => 1), array('usuarios_id' => $user->usuarios_id));
+
+				$sessiondata = array('usuarios_id' => $user->usuarios_id);
 				$this->session->set_userdata($sessiondata);
+
+				$bitacora = array('char_url' => onToy(), 'usuario_id' => $user->usuarios_id, 'text_descripcion' => 'Inicio de Sesion', 'date_registro' => date('Y-m-d H:i:s'));
+				$this->db->insert('tbl_bitacora', $bitacora);
+
 				$respuesta['data'] = TRUE;
             } else {
             	$respuesta['data'] = FALSE;
@@ -28,5 +34,22 @@ class Welcome extends CI_Controller {
 
 			return retornoJson($respuesta);
 		}
+	}
+
+	public function logout() {
+		if($this->session->userdata('usuarios_id')) {
+
+			$bitacora = array('char_url' => onToy(), 'usuario_id' => $this->session->userdata('usuarios_id'), 'text_descripcion' => 'Cierre de sesion', 'date_registro' => date('Y-m-d H:i:s'));
+			$this->db->insert('tbl_bitacora', $bitacora);
+
+			$this->db->update('tbl_cat_usuarios', array('bit_conectado' => 0), array('usuarios_id' => $this->session->userdata('usuarios_id')));
+
+			$array_items = array('usuarios_id');
+			$this->session->unset_userdata($array_items);
+			$this->session->sess_destroy();
+			//removeCache();
+		}
+
+		redirect('/');
 	}
 }

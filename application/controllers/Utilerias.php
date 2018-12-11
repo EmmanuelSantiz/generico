@@ -9,7 +9,8 @@ class Utilerias extends CI_Controller {
 	
 	public function Sistemas() {
 		if($this->session->userdata('usuarios_id')) {
-			$this->load->template('utilerias/usuarios');
+			echo 1;
+			//$this->load->template('utilerias/usuarios');
 		} else {
 			redirect('/');
 		}
