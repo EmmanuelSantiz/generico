@@ -13,7 +13,7 @@ class Catalogos extends CI_Controller {
 
 			$numeropagina = $this->input->post("nropagina");
             $cantidad = $this->input->post("cantidad");
-            $respuesta['post']['inicio'] =($numeropagina -1)*$cantidad;
+            $respuesta['post']['inicio'] = ($numeropagina - 1) * $cantidad;
             $respuesta['post']['fin'] = $cantidad;
 
 			$this->load->model('Model_super');
@@ -53,7 +53,7 @@ class Catalogos extends CI_Controller {
 		}
 
 		if($this->session->userdata('usuarios_id')) {
-			$this->load->template('utilerias/usuarios');
+			$this->load->template('catalogos/usuarios');
 		} else {
 			redirect('/');
 		}
