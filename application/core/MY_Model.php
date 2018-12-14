@@ -5,13 +5,6 @@ class MY_Model extends CI_Model {
         parent::__construct();
     }
 
-    /**
-     * 
-     * Crea un query para base de datos y regresa los resultados
-     * @param String $type [all|first|count|list]
-     * @param Array $params array([conditions|fields|order|limit|join])
-     * @return Object o Array
-     */
     function find($type, $params = array()) {
         $result = FALSE;
         $this->db->from($this->table);
@@ -118,61 +111,42 @@ class MY_Model extends CI_Model {
             }
         }
 
-        $this->db->last_query();
+        //echo $this->db->last_query();
         return $result;
     }
 
-    /**
-     * 
-     * Guarda o Actualiza un registro en la base de datos
-     * @param Array $params campos para ser guardados
-     * @return Int el id para actualizar si exsite o agregar si no existe
-     */
     function save($params) {
         $already_exists = FALSE;
-        if(count($params)) {
-            if(isset($params['id'])) {
-                //check if the record already exists in the database
-                $found_record = $this->find('count', array('conditions' => array('id' => $params['id'])));
-                if($found_record)
-                    $already_exists = TRUE;
-            }
-            $this->db->set($params);
-            if($already_exists) {
-                $this->db->where('id', $params['id']);
-                if($this->db->update($this->table))
-                    return $params['id'];
-                else
-                    return FALSE;
-            } else {
-                $this->db->insert($this->table, $params); 
-                if($this->db->affected_rows()) {
-                    $new_record_id = $this->find('first', array('fields' => array('id'), 'order' => array('id' => 'DESC')));
-                    return $new_record_id->id;
-                }
-                else
-                    return FALSE;
-            }
+
+        $tabla = explode(' ', $this->table);
+        $tabla = $tabla[0];
+
+        $columPry = $this->db->query("SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS WHERE table_name = '".$tabla."' AND COLUMN_KEY IN('PRI', 'UNI')")->row();        
+
+        if(isset($params[$columPry->COLUMN_NAME])) {
+            $found_record = $this->find('count', array('conditions' => array(array('campo' => $columPry->COLUMN_NAME, 'value' => $params[$columPry->COLUMN_NAME], 'type' => 'where'))));
+            if($found_record)
+                $already_exists = TRUE;
         }
-        return FALSE;
+
+        $this->db->set($params);
+
+        if ($already_exists) {
+            $this->db->where($columPry->COLUMN_NAME, $params[$columPry->COLUMN_NAME]);
+            if($this->db->update($tabla))
+                    return $params[$columPry->COLUMN_NAME];
+                else
+                    return FALSE;
+        } else {
+            $this->db->insert($tabla, $params); 
+            return $this->db->insert_id();
+        }
+
+        //echo $this->db->last_query();
     }
 
-    /**
-     *
-     * Elimina registros de la base de datos
-     * @param Array $params condiciones para eliminar registro(s)
-     * @return INT el numero de campos afectados o FALSE si ocurrio error 
-     */
     function delete($params) {
         return ($this->db->delete($this->table, $params) ? $this->db->affected_rows() : FALSE);
-        /*if($this->db->delete($this->table, $params))
-            return $this->db->affected_rows();
-        else
-            return FALSE;*/
     }
 }
-
-//https://github.com/ccruz17/certificados-sat-openssl
-//http://www.expidetufactura.com.mx/cfdi_v3.2/pages/csd.txt
-//http://desarrolladores.diverza.com/timbre/cfd/sello.html
 ?>

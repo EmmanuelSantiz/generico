@@ -16,7 +16,7 @@
 <nav id="sidebar" class="sidebar nav-collapse collapse">
             <ul id="side-nav" class="side-nav">
                 <li class="active">
-                    <a href="javascript:void(0);"><i class="fa fa-home"></i> <span class="name">Dashboard</span></a>
+                    <a href="<?php echo base_url(); ?>"><i class="fa fa-home"></i> <span class="name">Dashboard</span></a>
                 </li>
                 <li class="panel ">
                     <a class="accordion-toggle collapsed" data-toggle="collapse" data-parent="#side-nav" href="#forms-utilerias"><i class="fa fa-pencil"></i> <span class="name">Utilerias</span></a>
@@ -32,6 +32,8 @@
                     <a class="accordion-toggle collapsed" data-toggle="collapse" data-parent="#side-nav" href="#forms-catalogos"><i class="fa fa-cog"></i> <span class="name">Catalogos</span></a>
                     <ul id="forms-catalogos" class="panel-collapse collapse ">
                         <li class=""><a href="<?php echo base_url("Catalogos/Usuarios") ?>">Usuarios</a></li>
+                        <li class=""><a href="<?php echo base_url("Catalogos/TipoUsuarios"); ?>">Tipos de Usuarios</a></li>
+                        <li class=""><a href="<?php echo base_url("Catalogos/Estatus"); ?>">Estatus</a></li>
                     </ul>
                 </li>
                 <li class="visible-xs">

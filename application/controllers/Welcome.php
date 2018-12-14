@@ -12,6 +12,14 @@ class Welcome extends CI_Controller {
 		}
 	}
 
+	public function getExistente() {
+		if ($this->input->is_ajax_request()) {
+			$respuesta['post'] = $this->security->xss_clean($this->input->post());
+			$respuesta['data'] = $this->db->select('*')->get_where($respuesta['post']['tabla'], array('lower('.$respuesta['post']['campo'].')' => $respuesta['post']['valor']))->row();
+			return retornoJson($respuesta);
+		}
+	}
+
 	public function login() {
 		if($this->input->is_ajax_request()) {
 			$respuesta['post'] = $this->security->xss_clean($this->input->post());

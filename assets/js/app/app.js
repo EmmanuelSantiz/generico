@@ -43,6 +43,19 @@ jQuery(document).ready(function() {
         buscar_registros(1,20);
     });
 
+    //Por Revisar
+    /*$('.obtenerCopia').change(function(event) {
+        var el = $(this);
+
+        $.post(base_url('Welcome/getExistente'), {campo: el.attr('id'), valor: el.val(), tabla: el.data('tbl')}, function(data) {
+            console.log(data);
+            if (data.data) {
+                noti('Este nombre ya existe en base de dato!!', 'error');
+                el.val('');
+            }
+        });
+    });*/
+
     $('.order').click(function() {
         var element = $(this);
 
@@ -75,7 +88,7 @@ jQuery(document).ready(function() {
 
     /***********************************Validar Formularios**********************************/
 
-    var auto = $('#'+$('form').attr('id')).data('auto');
+    /*var auto = $('#'+$('form').attr('id')).data('auto');
     var bit = $('#'+$('form').attr('id')).data('bit');
 
     $("#"+$('form').attr('id')).keypress(function(e) {
@@ -129,7 +142,7 @@ jQuery(document).ready(function() {
         $('#text_comentario').keyup(function() {
             $('#btnComment').prop('disabled', (!$(this).val() != ''));
         });
-    }
+    }*/
 
 });
 
@@ -417,4 +430,17 @@ jQuery(document).ready(function() {
                 }
             }
         }
+    }
+
+    function base_url(cadena = "") {
+        var base = window.location.href.split('/');
+        return base[0]+'//'+base[2]+'/app/'+cadena;
+    }
+
+    function noti(mensaje,$tipo = 'success') {
+        var theme = 'air';
+
+        $.globalMessenger({theme:theme, extraClasses:'messenger-fixed messenger-on-top'});
+        Messenger.options = {theme:theme, extraClasses:'messenger-fixed messenger-on-top'};
+        Messenger().post({message: mensaje, type:$tipo, showCloseButton:true});
     }
