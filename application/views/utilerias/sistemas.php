@@ -16,7 +16,7 @@
         <header>
           <h4>Nuevo Sistema</h4>
           <div class="actions">
-            <button type="button" class="btn btn-success btn-xs pull-right" onclick="location.href='<?php echo base_url("usuario/detalle"); ?>'"><i class="fa fa-plus"></i> Agregar</button>
+            <button type="button" class="btn btn-success btn-xs pull-right" onclick="location.href='<?php echo base_url2("FormularioSistema"); ?>'"><i class="fa fa-plus"></i> Agregar</button>
           </div>
         </header>
       </section>
@@ -45,14 +45,15 @@
 </div>
 </div>
 <script>
-var ajaxUrl = '<?php echo base_url("Utilerias/Sistemas"); ?>';
+var ajaxUrl = '<?php echo base_url2("Sistemas"); ?>';
 
-/*function crear_elemento(data) {
+function crear_elemento(data) {
   var tr = jQuery('<tr></tr>');
-  tr.append('<td>'+data.char_nombres+'</td>');
+  tr.append('<td>'+data.char_nombre+'</td>');
   tr.append('<td>'+data.estatus_id+'</td>');
+  tr.append('<td class="text-right"><a class="btn btn-warning" href="<?php echo base_url2("FormularioSistema/"); ?>'+data.sistemas_id+'"><i class="fa fa-pencil"></i></a><button class="btn btn-danger" type="button"><i class="fa fa-trash"></i></button></td>');
   $('tbody').append(tr);
-}*/
+}
 
 function crear_vacio() {
   var tr = jQuery('<tr></tr>');

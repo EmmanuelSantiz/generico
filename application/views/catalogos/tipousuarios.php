@@ -16,7 +16,7 @@
         <header>
           <h4>Nuevo Tipo de Usuario</h4>
           <div class="actions">
-            <button type="button" class="btn btn-success btn-xs pull-right" onclick="location.href='<?php echo base_url("usuario/detalle"); ?>'"><i class="fa fa-plus"></i> Agregar</button>
+            <button type="button" class="btn btn-success btn-xs pull-right" onclick="location.href='<?php echo base_url2("FormularioTipoUsuarios"); ?>'"><i class="fa fa-plus"></i> Agregar</button>
           </div>
         </header>
       </section>
@@ -33,6 +33,7 @@
                       <tr>
                           <th>Id</th>
                           <th>Descripcion</th>
+                          <th></th>
                       </tr>
                       </thead>
                       <tbody></tbody>
@@ -45,12 +46,13 @@
 </div>
 </div>
 <script>
-var ajaxUrl = '<?php echo base_url("Catalogos/TipoUsuarios"); ?>';
+var ajaxUrl = '<?php echo base_url2("TipoUsuarios"); ?>';
 
 function crear_elemento(data) {
   var tr = jQuery('<tr></tr>');
   tr.append('<td>'+data.tipoUsuario_id+'</td>');
   tr.append('<td>'+data.char_tipoUsuario+'</td>');
+  tr.append('<td><a class="btn btn-warning" href="<?php echo base_url2("FormularioTipoUsuarios/"); ?>'+data.tipoUsuario_id+'"><i class="fa fa-pencil"></i></a><button class="btn btn-danger" type="button"><i class="fa fa-trash"></i></button></td>');
   $('tbody').append(tr);
 }
 </script>

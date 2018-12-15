@@ -59,6 +59,30 @@ class Catalogos extends CI_Controller {
 		}
 	}
 
+    public function FormularioUsuario($id = null) {
+        $this->Model_super->setTabla('tbl_cat_usuarios tcu');
+
+        $params = array();
+        $sql = 'tcu.*';
+
+        $respuesta['data'] = null;
+        $respuesta['id'] = $id;
+
+        if ($id) {
+            $params[] = array('campo' => 'usuarios_id', 'value' => $id, 'type' => 'where');
+            $respuesta['data'] = $this->Model_super->find('first', array('conditions' => $params, 'fields' => $sql));
+        }
+
+        $this->Model_super->setTabla('tbl_cat_tipousuario tct');
+        $respuesta['Catalogos']['TiposUsuarios'] = $this->Model_super->find('all', array('fields' => '*'));
+
+        if ($this->session->userdata('usuarios_id')) {
+            $this->load->template('catalogos/formularios/FormularioUsuario', $respuesta);
+        } else {
+            redirect('/');
+        }
+    }
+
     public function TipoUsuarios() {
         if ($this->input->is_ajax_request()) {
             parse_str($this->security->xss_clean($this->input->post('data')), $respuesta['post']);
@@ -110,7 +134,28 @@ class Catalogos extends CI_Controller {
         }
     }
 
-    public function FormularioTipoUsuarios() {
+    public function FormularioTipoUsuarios($id = null) {
+        $this->Model_super->setTabla('tbl_cat_tipousuario tct');
+
+        $params = array();
+        $sql = 'tct.*';
+
+        $respuesta['data'] = null;
+        $respuesta['id'] = $id;
+
+        if ($id) {
+            $params[] = array('campo' => 'tipoUsuario_id', 'value' => $id, 'type' => 'where');
+            $respuesta['data'] = $this->Model_super->find('first', array('conditions' => $params, 'fields' => $sql));
+        }
+
+        if ($this->input->post()) {
+            $data = $this->security->xss_clean($this->input->post());
+            $data['tipoUsuario_id'] = $id;
+            $this->Model_super->save($data);
+
+            redirect('Catalogos/TipoUsuarios');
+        }
+
         if ($this->session->userdata('usuarios_id')) {
             $this->load->template('catalogos/formularios/FormularioTipoUsuarios', $respuesta);
         } else {
@@ -185,11 +230,9 @@ class Catalogos extends CI_Controller {
 
         if ($this->input->post()) {
             $data = $this->security->xss_clean($this->input->post());
-            if ($id) {
-                $data['estatus_id'] = $id;
-            }
+            $data['estatus_id'] = $id;
+            $this->Model_super->save($data);
 
-            //$this->Model_super->save($data);
             redirect('Catalogos/Estatus');
         }
 

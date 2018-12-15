@@ -1,25 +1,25 @@
 <?php
 /*
- * Formulario Estatus
+ * Formulario Tipos de Usuarios
  *
 */
 ?>
 <div class="content container">
     <ol class="breadcrumb">
       <li><a href="<?php echo base_url() ?>">Inicio</a></li>
-      <li><a href="<?php echo base_url2("Estatus") ?>">Estatus</a></li>
-      <li class="active">Formulario Estatus</li>
+      <li><a href="<?php echo base_url2("TipoUsuarios") ?>">Tipos de Usuarios</a></li>
+      <li class="active">Formulario Tipo de Usuario</li>
     </ol>
 
-    <form class="form-horizontal" action="<?php echo onToy($id); ?>" method="post" >
+    <form class="form-horizontal" action="<?php echo onToy("$id"); ?>" method="post" >
         <section class="widget">
             <div class="body">
                 <fieldset>
-                    <legend class="section">Formulario de Estatus</legend>
+                    <legend class="section">Formulario de Tipos de Usuarios</legend>
                     <div class="form-group">
-                        <label for="hint-field" class="col-sm-4 control-label">Nombre del Estatus</label>
+                        <label for="hint-field" class="col-sm-4 control-label">Nombre</label>
                         <div class="col-sm-7">
-                            <input type="text" id="char_nombre" name="char_nombre" class="form-control input-transparent obtenerCopia" placeholder="Nombre del Estatus" value="<?php echo ($data?$data->char_nombre:''); ?>" data-tbl="tbl_cat_estatus">
+                            <input type="text" id="char_tipoUsuario" name="char_tipoUsuario" class="form-control input-transparent obtenerCopia" placeholder="Nombre del Estatus" value="<?php echo ($data?$data->char_tipoUsuario:''); ?>" data-tbl="tbl_cat_tipousuario">
                         </div>
                     </div>
                 </fieldset>
@@ -28,7 +28,7 @@
                         <div class="col-sm-offset-4 col-sm-7">
                             <div class="btn-toolbar">
                                 <button type="submit" class="btn btn-primary" id="Guardar">Guardar Cambios</button>
-                                <button type="button" class="btn btn-inverse" onclick="location.href='<?php echo base_url2("Estatus") ?>'">Cancelar</button>
+                                <button type="button" class="btn btn-inverse" onclick="location.href='<?php echo base_url2("TipoUsuarios") ?>'">Cancelar</button>
                             </div>
                         </div>
                     </div>

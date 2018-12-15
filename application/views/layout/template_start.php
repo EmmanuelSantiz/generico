@@ -46,5 +46,14 @@
   <!--script src="http://34.224.174.138/node_modules/socket.io/node_modules/socket.io-client/socket.io.js"></script-->
 </head>
 <body>
-<script>
+<script type="text/javascript">
+$(function() {
+  $('.datepicker').Zebra_DatePicker({
+    format: 'Y-m-d'
+  });
+
+  $(".select2").each(function() {
+    $(this).select2();
+  });
+});
 </script>

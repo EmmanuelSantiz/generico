@@ -5,6 +5,7 @@ class Utilerias extends CI_Controller {
 
 	public function __construct() {
 		parent::__construct();
+        $this->load->model('Model_super');
 	}
 	
 	public function Sistemas() {
@@ -22,7 +23,6 @@ class Utilerias extends CI_Controller {
             $respuesta['post']['inicio'] = ($numeropagina - 1) * $cantidad;
             $respuesta['post']['fin'] = $cantidad;
 
-			$this->load->model('Model_super');
             $this->Model_super->setTabla('tbl_cat_sistemas tcs');
 
             $params = array();
@@ -58,4 +58,33 @@ class Utilerias extends CI_Controller {
 			return retornoJson($respuesta);
 		}
 	}
+
+    public function FormularioSistema($id = null) {
+        $this->Model_super->setTabla('tbl_cat_sistemas tcs');
+
+        $params = array();
+        $sql = 'tcs.*';
+
+        $respuesta['data'] = null;
+        $respuesta['id'] = $id;
+
+        if ($id) {
+            $params[] = array('campo' => 'sistemas_id', 'value' => $id, 'type' => 'where');
+            $respuesta['data'] = $this->Model_super->find('first', array('conditions' => $params, 'fields' => $sql));
+        }
+
+        if ($this->input->post()) {
+            $data = $this->security->xss_clean($this->input->post());
+            $data['sistemas_id'] = $id;
+            $this->Model_super->save($data);
+
+            redirect('Utilerias/Sistemas');
+        }
+
+        if ($this->session->userdata('usuarios_id')) {
+            $this->load->template('utilerias/formularios/FormularioSistema', $respuesta);
+        } else {
+            redirect('/');
+        }
+    }
 }

@@ -5,7 +5,10 @@ class Welcome extends CI_Controller {
 	
 	public function index() {
 		if($this->session->userdata('usuarios_id')) {
-			$this->load->template('welcome_message');
+			$this->load->model('Model_super');
+			$this->Model_super->setTabla('tbl_cat_usuarios');
+			$respuesta['Usuarios'] = $total = $this->Model_super->find('count', array('fields' => '*'));
+			$this->load->template('welcome_message', $respuesta);
 		} else {
 			$this->load->view('layout/template_start');
 			$this->load->view('login/login');

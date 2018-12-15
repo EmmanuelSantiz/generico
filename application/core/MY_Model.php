@@ -117,6 +117,7 @@ class MY_Model extends CI_Model {
 
     function save($params) {
         $already_exists = FALSE;
+        $retorno = FALSE;
 
         $tabla = explode(' ', $this->table);
         $tabla = $tabla[0];
@@ -134,15 +135,16 @@ class MY_Model extends CI_Model {
         if ($already_exists) {
             $this->db->where($columPry->COLUMN_NAME, $params[$columPry->COLUMN_NAME]);
             if($this->db->update($tabla))
-                    return $params[$columPry->COLUMN_NAME];
-                else
-                    return FALSE;
+                $retorno = $params[$columPry->COLUMN_NAME];
         } else {
             $this->db->insert($tabla, $params); 
-            return $this->db->insert_id();
+            $retorno = $this->db->insert_id();
         }
 
-        //echo $this->db->last_query();
+        if ($retorno)
+            $this->session->set_flashdata('message', 'Se Agregaron datos Exitosamente');
+        else
+            $this->session->set_flashdata('message', 'Error al registrar datos');
     }
 
     function delete($params) {

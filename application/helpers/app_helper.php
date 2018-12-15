@@ -6,9 +6,9 @@
 * @return clase y metodo Ej. Inicio/index.
 */
 if(!function_exists('onToy')) {
-	function onToy() {
+	function onToy($id = null) {
 		$ci =& get_instance();
-    	return $ci->router->fetch_class().'/'.$ci->router->fetch_method();
+    	return $ci->router->fetch_class().'/'.$ci->router->fetch_method().($id?('/'.$id):'');
 	}
 }
 
@@ -63,5 +63,28 @@ if (!function_exists('dd')) {
 		echo '<pre>';
 		var_dump($impresion);
 		exit();
+	}
+}
+
+/**
+ * Funcion para generar passwords aleatoriamente
+ * @param
+ * @return cadena de 10 caracteres
+*/
+if (!function_exists('temp_pass')) {
+	function temp_pass() {
+		$caracteres = "ABCDEFGHJKMNPQRSTUVWXYZabcdefghjkmnpqrstuvwxyz23456789";
+		$cadena = "";
+		for($i=0; $i<4; $i++) {
+    		$cadena .= substr($caracteres,rand(0,strlen($caracteres)),1);
+		}
+		return $cadena;
+	}
+}
+
+if (!function_exists('base_url2')) {
+	function base_url2($url = '') {
+		$ci =& get_instance();
+		echo base_url($ci->router->fetch_class().($url!=''?'/'.$url:''.$url));
 	}
 }

@@ -21,7 +21,7 @@
                 <li class="panel ">
                     <a class="accordion-toggle collapsed" data-toggle="collapse" data-parent="#side-nav" href="#forms-utilerias"><i class="fa fa-pencil"></i> <span class="name">Utilerias</span></a>
                     <ul id="forms-utilerias" class="panel-collapse collapse ">
-                        <li class=""><a href="<?php echo base_url("Utilerias/Sistemas"); ?>">Crear Sistema</a></li>
+                        <li class=""><a href="<?php echo base_url("Utilerias/Sistemas"); ?>">Modulo de Sistemas</a></li>
                         <!--li class=""><a href="javascript:void(0);">Article</a></li>
                         <li class=""><a href="javascript:void(0);">Elements</a></li>
                         <li class=""><a href="javascript:void(0);">Validation</a></li>
@@ -223,4 +223,13 @@
                     </div>
                 </div>
             </div>
-        </header>        <div class="content container">
+        </header>
+    <div class="content container">
+<?php
+if($this->session->flashdata('message')) { ?>
+  <script>
+    $(function() {
+      noti('<?php echo $this->session->flashdata('message'); ?>');
+    })
+  </script>
+<?php } ?>

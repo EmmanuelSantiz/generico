@@ -16,7 +16,7 @@
         <header>
           <h4>Nuevo Usuario</h4>
           <div class="actions">
-            <button type="button" class="btn btn-success btn-xs pull-right" onclick="location.href='<?php echo base_url("usuario/detalle"); ?>'"><i class="fa fa-plus"></i> Agregar</button>
+            <button type="button" class="btn btn-success btn-xs pull-right" onclick="location.href='<?php echo base_url2("FormularioUsuario"); ?>'"><i class="fa fa-plus"></i> Agregar</button>
           </div>
         </header>
       </section>
@@ -45,7 +45,7 @@
 </div>
 </div>
 <script>
-var ajaxUrl = '<?php echo base_url("Catalogos/Usuarios"); ?>';
+var ajaxUrl = '<?php echo base_url2("Usuarios"); ?>';
 
 function crear_elemento(data) {
   var tr = jQuery('<tr></tr>');
